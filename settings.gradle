@@ -1,0 +1,2 @@
+rootProject.name = "Posenet_Demo"
+include ':app'
