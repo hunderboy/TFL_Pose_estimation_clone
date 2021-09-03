@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.util.Log
 import com.example.posenet_demo.data.BodyPart
 import com.example.posenet_demo.data.Person
+import kotlin.math.atan2
 
 /**
  * 시각화 자료
@@ -42,6 +43,14 @@ object VisualizationUtils {
         Pair(BodyPart.RIGHT_KNEE, BodyPart.RIGHT_ANKLE)
     )
 
+    private var leftHip_x :Float = 0f
+    private var leftHip_y :Float = 0f
+    private var rightHip_x :Float = 0f
+    private var rightHip_y :Float = 0f
+    private var rightKnee_x :Float = 0f
+    private var rightKnee_y :Float = 0f
+
+
 
     /** Draw line and point indicate body pose
      * 라인과 포인트 그리는 함수
@@ -66,7 +75,7 @@ object VisualizationUtils {
         val output = input.copy(Bitmap.Config.ARGB_8888,true)
         val originalSizeCanvas = Canvas(output)
 
-        /**
+        /** forEach 반복문
          * 뼈대 라인 그리기
          */
         bodyJoints.forEach {
@@ -75,22 +84,58 @@ object VisualizationUtils {
             // (시작) float startX, float startY, (끝) float stopX, float stopY
             originalSizeCanvas.drawLine(pointA.x, pointA.y, pointB.x, pointB.y, paintLine)
         }
-        /**
+        /** forEach 반복문
          * 관절 포인트 원형점 그리기
          */
         person.keyPoints.forEach { key_point ->
-
-            Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
-            Log.e(TAG,"x : ${key_point.coordinate.x}")
-            Log.e(TAG,"y : ${key_point.coordinate.y}")
-
             originalSizeCanvas.drawCircle(
                 key_point.coordinate.x, // 원형점을 그릴 x 좌표
                 key_point.coordinate.y, // 원형점을 그릴 y 좌표
                 CIRCLE_RADIUS,  // 반지름 길이 설정
                 paintCircle     // 원형을 그리기 위한 미리 준비한 변수 적용
             )
+            // 3가지 관절 포인트를 찾는다.
+            when(key_point.bodyPart.toString()) {
+                "LEFT_HIP" -> {
+                    leftHip_x = key_point.coordinate.x
+                    leftHip_y = key_point.coordinate.y
+                    Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
+                    Log.e(TAG,"x : ${key_point.coordinate.x}")
+                    Log.e(TAG,"y : ${key_point.coordinate.y}")
+                }
+                "RIGHT_HIP" -> {        // 중간 기준점
+                    rightHip_x = 0f
+                    rightHip_y = 0f
+                    Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
+                    Log.e(TAG,"x : ${key_point.coordinate.x}")
+                    Log.e(TAG,"y : ${key_point.coordinate.y}")
+
+                }
+                "RIGHT_KNEE" -> {
+                    rightKnee_x = 0f
+                    rightKnee_y = 0f
+                    Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
+                    Log.e(TAG,"x : ${key_point.coordinate.x}")
+                    Log.e(TAG,"y : ${key_point.coordinate.y}")
+
+                }
+            }
+            getDegree()
         }
+
         return output
     }
+
+
+
+    /**
+     * 고관절과 오른쪽 다리의 내측 각도 계산
+     */
+    fun getDegree(){
+        val degreeRadian = atan2((rightKnee_y-rightHip_y),(rightKnee_x-rightHip_x)) - atan2((leftHip_y-rightHip_y),(leftHip_x-rightHip_x))
+        val degree = degreeRadian*(180.0 / Math.PI)
+
+        Log.e(TAG,"각도 : $degree")
+    }
+
 }
