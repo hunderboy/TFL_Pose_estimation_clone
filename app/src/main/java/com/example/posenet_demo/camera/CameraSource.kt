@@ -91,7 +91,8 @@ class CameraSource(
                 yuvConverter.yuvToRgb(image, imageBitmap)
                 // Create rotated version for portrait display
                 val rotateMatrix = Matrix()
-                rotateMatrix.postRotate(90.0f)
+                 rotateMatrix.postRotate(90.0f)
+//                rotateMatrix.postRotate(270.0f)
 
                 val rotatedBitmap = Bitmap.createBitmap(
                     imageBitmap, 0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT,
@@ -151,6 +152,7 @@ class CameraSource(
             val cameraDirection = characteristics.get(CameraCharacteristics.LENS_FACING)
             if (cameraDirection != null &&
                 cameraDirection == CameraCharacteristics.LENS_FACING_FRONT
+//                cameraDirection == CameraCharacteristics.LENS_FACING_BACK
             ) {
                 continue
             }
@@ -236,6 +238,11 @@ class CameraSource(
         }
     }
 
+    /**
+     * 시각화
+     * @param person [Person]
+     * @param bitmap [Bitmap]
+     */
     private fun visualize(person: Person, bitmap: Bitmap) {
         var outputBitmap = bitmap
 

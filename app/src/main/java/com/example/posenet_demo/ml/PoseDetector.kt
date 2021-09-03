@@ -19,6 +19,9 @@ package com.example.posenet_demo.ml
 import android.graphics.Bitmap
 import com.example.posenet_demo.data.Person
 
+/**
+ * 포즈 감지
+ */
 interface PoseDetector : AutoCloseable {
 
     fun estimateSinglePose(bitmap: Bitmap): Person

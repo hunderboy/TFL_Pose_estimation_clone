@@ -19,6 +19,7 @@ package com.example.posenet_demo.ml
 import android.content.Context
 import android.graphics.*
 import android.os.SystemClock
+import android.util.Log
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
 import com.example.posenet_demo.data.*
@@ -33,13 +34,25 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
+/**
+ * MoveNet 모델 타입 2가지
+ */
 enum class ModelType {
     Lightning,
     Thunder
 }
 
-class MoveNet(private val interpreter: Interpreter, private var gpuDelegate: GpuDelegate?) :
-    PoseDetector {
+/**
+ * MoveNet
+ * @param  interpreter : Interpreter
+ * @param  gpuDelegate : GpuDelegate
+ * PoseDetector 상속 받음
+ */
+class MoveNet(
+    private val interpreter: Interpreter,
+    private var gpuDelegate: GpuDelegate?)
+    : PoseDetector
+{
 
     companion object {
         private const val MIN_CROP_KEYPOINT_SCORE = .2f
@@ -85,12 +98,17 @@ class MoveNet(private val interpreter: Interpreter, private var gpuDelegate: Gpu
             create(context, device, ModelType.Lightning)
     }
 
+    private val TAG = "MoveNet"
     private var cropRegion: RectF? = null
     private var lastInferenceTimeNanos: Long = -1
     private val inputWidth = interpreter.getInputTensor(0).shape()[1]
     private val inputHeight = interpreter.getInputTensor(0).shape()[2]
     private var outputShape: IntArray = interpreter.getOutputTensor(0).shape()
 
+
+    /**
+     * 싱글 포즈 측정
+     */
     override fun estimateSinglePose(bitmap: Bitmap): Person {
         val inferenceStartTimeNanos = SystemClock.elapsedRealtimeNanos()
         if (cropRegion == null) {
@@ -133,12 +151,15 @@ class MoveNet(private val interpreter: Interpreter, private var gpuDelegate: Gpu
                     val x = output[idx * 3 + 1] * inputWidth * widthRatio
                     val y = output[idx * 3 + 0] * inputHeight * heightRatio
 
+//                    Log.e(TAG,"x : $x")
+//                    Log.e(TAG,"y : $y")
+
                     positions.add(x)
                     positions.add(y)
                     val score = output[idx * 3 + 2]
                     keyPoints.add(
                         KeyPoint(
-                            BodyPart.fromInt(idx),
+                            BodyPart.fromInt(idx),  // idx(position)에 따라 BodyPart 추출
                             PointF(
                                 x,
                                 y
