@@ -7,7 +7,7 @@ import android.graphics.Paint
 import android.util.Log
 import com.example.posenet_demo.data.BodyPart
 import com.example.posenet_demo.data.Person
-import kotlin.math.atan2
+
 
 /**
  * 시각화 자료
@@ -43,24 +43,8 @@ object VisualizationUtils {
         Pair(BodyPart.RIGHT_KNEE, BodyPart.RIGHT_ANKLE)
     )
 
-    /**
-     * 관절 좌표 x y
-     */
-    // 왼쪽 고관절
-    private var leftHip_x :Float = 0f
-    private var leftHip_y :Float = 0f
-    // 오른쪽 고관절
-    private var rightHip_x :Float = 0f
-    private var rightHip_y :Float = 0f
-    // 오른쪽 무릎
-    private var rightKnee_x :Float = 0f
-    private var rightKnee_y :Float = 0f
-    // 왼쪽 무릎
-    private var leftKnee_x :Float = 0f
-    private var leftKnee_y :Float = 0f
-    // 왼쪽 발목
-    private var leftAnkle_x :Float = 0f
-    private var leftAnkle_y :Float = 0f
+
+
 
 
     /** Draw line and point indicate body pose
@@ -108,36 +92,36 @@ object VisualizationUtils {
             // 3가지 관절 포인트를 찾는다.
             when(key_point.bodyPart.toString()) {
                 "LEFT_HIP" -> {
-                    leftHip_x = key_point.coordinate.x
-                    leftHip_y = key_point.coordinate.y
+                    LegSwingModel.leftHip_x = key_point.coordinate.x
+                    LegSwingModel.leftHip_y = key_point.coordinate.y
                     Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
                     Log.e(TAG,"LEFT_HIP( x ) : ${key_point.coordinate.x}")
                     Log.e(TAG,"LEFT_HIP( y ) : ${key_point.coordinate.y}")
                 }
                 "RIGHT_HIP" -> {        // 중간 기준점
-                    rightHip_x = key_point.coordinate.x
-                    rightHip_y = key_point.coordinate.y
+                    LegSwingModel.rightHip_x = key_point.coordinate.x
+                    LegSwingModel.rightHip_y = key_point.coordinate.y
                     Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
                     Log.e(TAG,"RIGHT_HIP( x ) : ${key_point.coordinate.x}")
                     Log.e(TAG,"RIGHT_HIP( y ) : ${key_point.coordinate.y}")
                 }
                 "RIGHT_KNEE" -> {
-                    rightKnee_x = key_point.coordinate.x
-                    rightKnee_y = key_point.coordinate.y
+                    LegSwingModel.rightKnee_x = key_point.coordinate.x
+                    LegSwingModel.rightKnee_y = key_point.coordinate.y
                     Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
                     Log.e(TAG,"RIGHT_KNEE( x ) : ${key_point.coordinate.x}")
                     Log.e(TAG,"RIGHT_KNEE( y ) : ${key_point.coordinate.y}")
                 }
                 "LEFT_KNEE" -> {
-                    leftKnee_x = key_point.coordinate.x
-                    leftKnee_y = key_point.coordinate.y
+                    LegSwingModel.leftKnee_x = key_point.coordinate.x
+                    LegSwingModel.leftKnee_y = key_point.coordinate.y
                     Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
                     Log.e(TAG,"LEFT_KNEE( x ) : ${key_point.coordinate.x}")
                     Log.e(TAG,"LEFT_KNEE( y ) : ${key_point.coordinate.y}")
                 }
                 "LEFT_ANKLE" -> {
-                    leftAnkle_x = key_point.coordinate.x
-                    leftAnkle_y = key_point.coordinate.y
+                    LegSwingModel.leftAnkle_x = key_point.coordinate.x
+                    LegSwingModel.leftAnkle_y = key_point.coordinate.y
                     Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
                     Log.e(TAG,"LEFT_ANKLE( x ) : ${key_point.coordinate.x}")
                     Log.e(TAG,"LEFT_ANKLE( y ) : ${key_point.coordinate.y}")
@@ -149,51 +133,10 @@ object VisualizationUtils {
         Log.e(TAG,"구분선 : ----------------------------------------------------------------")
         // 비트맵 1프레임을 완성했을때 마다 각도 계산해서 보여주기
 //        getDegree()
-        getVerticalLegDegree()
+        LegSwingModel.getVerticalLegDegree()
         return output
     }
 
 
 
-    /**
-     * 고관절과 오른쪽 다리의 내측 각도 계산
-     */
-    fun getDegree(){
-
-        val point_1_Y = leftHip_y-rightHip_y
-        val point_1_X = leftHip_x-rightHip_x
-        val degree_1_radian = atan2(point_1_Y,point_1_X)
-        val degree1 = degree_1_radian*(180.0 / Math.PI)
-        Log.e(TAG,"degree1 각도 : $degree1")
-        val point_2_Y = rightKnee_y-rightHip_y
-        val point_2_X = rightKnee_x-rightHip_x
-        val degree_2_radian = atan2(point_2_Y,point_2_X)
-        val degree2 = degree_2_radian*(180.0 / Math.PI)
-        Log.e(TAG,"degree2 각도 : $degree2")
-
-
-//        val degreeRadian = atan2((rightKnee_y-rightHip_y),(rightKnee_x-rightHip_x)) - atan2((leftHip_y-rightHip_y),(leftHip_x-rightHip_x))
-//        val degree = degreeRadian*(180.0 / Math.PI)
-//        Log.e(TAG,"오른쪽 고관절 Radian : $degreeRadian")
-//        Log.e(TAG,"오른쪽 고관절 각도 : $degree")
-    }
-
-    /**
-     * 다리는 수직으로 되어 있는지?
-     */
-    fun getVerticalLegDegree(){
-//        val degreeRadian = atan2((leftHip_y-leftKnee_y),(leftHip_x-leftKnee_x)) - atan2((leftAnkle_y-leftKnee_y),(leftAnkle_x-leftKnee_x))
-//        val degree = degreeRadian*(180.0 / Math.PI)
-//
-//        Log.e(TAG,"왼쪽 무릎 Radian : $degreeRadian")
-//        Log.e(TAG,"왼쪽 무릎 각도 : $degree")
-
-        val degreeRadian = atan2((leftKnee_y-leftHip_y),(leftKnee_x-leftHip_x))
-        val degree = degreeRadian*(180.0 / Math.PI)
-        val degreeReverse = (degree-90)*-1
-
-        Log.e(TAG,"오른쪽 허리각 Radian : $degreeRadian")
-        Log.e(TAG,"오른쪽 허리각 각도 : $degree")
-        Log.e(TAG,"오른쪽 허리각 각도 반전 : $degreeReverse")
-    }
 }
