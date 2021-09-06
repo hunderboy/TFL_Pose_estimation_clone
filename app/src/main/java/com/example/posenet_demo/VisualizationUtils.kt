@@ -91,49 +91,64 @@ object VisualizationUtils {
             )
             // 3가지 관절 포인트를 찾는다.
             when(key_point.bodyPart.toString()) {
-                "LEFT_HIP" -> {
+                "LEFT_SHOULDER" -> { // 5
+                    LegSwingModel.leftShoulder_x = key_point.coordinate.x
+                    LegSwingModel.leftShoulder_y = key_point.coordinate.y
+                }
+                "RIGHT_SHOULDER" -> { // 6
+                    LegSwingModel.rightShoulder_x = key_point.coordinate.x
+                    LegSwingModel.rightShoulder_y = key_point.coordinate.y
+                }
+                "LEFT_ELBOW" -> { // 7
+                    LegSwingModel.leftElbow_x = key_point.coordinate.x
+                    LegSwingModel.leftElbow_y = key_point.coordinate.y
+                }
+                "RIGHT_ELBOW" -> {// 8
+                    LegSwingModel.rightElbow_x = key_point.coordinate.x
+                    LegSwingModel.rightElbow_y = key_point.coordinate.y
+                }
+                "LEFT_WRIST" -> {// 9
+                    LegSwingModel.leftWrist_x = key_point.coordinate.x
+                    LegSwingModel.leftWrist_y = key_point.coordinate.y
+                }
+                "RIGHT_WRIST" -> {// 10
+                    LegSwingModel.rightWrist_x = key_point.coordinate.x
+                    LegSwingModel.rightWrist_y = key_point.coordinate.y
+                }
+                "LEFT_HIP" -> { // 11
                     LegSwingModel.leftHip_x = key_point.coordinate.x
                     LegSwingModel.leftHip_y = key_point.coordinate.y
-                    Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
-                    Log.e(TAG,"LEFT_HIP( x ) : ${key_point.coordinate.x}")
-                    Log.e(TAG,"LEFT_HIP( y ) : ${key_point.coordinate.y}")
                 }
-                "RIGHT_HIP" -> {        // 중간 기준점
+                "RIGHT_HIP" -> { // 12
                     LegSwingModel.rightHip_x = key_point.coordinate.x
                     LegSwingModel.rightHip_y = key_point.coordinate.y
-                    Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
-                    Log.e(TAG,"RIGHT_HIP( x ) : ${key_point.coordinate.x}")
-                    Log.e(TAG,"RIGHT_HIP( y ) : ${key_point.coordinate.y}")
                 }
-                "RIGHT_KNEE" -> {
-                    LegSwingModel.rightKnee_x = key_point.coordinate.x
-                    LegSwingModel.rightKnee_y = key_point.coordinate.y
-                    Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
-                    Log.e(TAG,"RIGHT_KNEE( x ) : ${key_point.coordinate.x}")
-                    Log.e(TAG,"RIGHT_KNEE( y ) : ${key_point.coordinate.y}")
-                }
-                "LEFT_KNEE" -> {
+                "LEFT_KNEE" -> { // 13
                     LegSwingModel.leftKnee_x = key_point.coordinate.x
                     LegSwingModel.leftKnee_y = key_point.coordinate.y
-                    Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
-                    Log.e(TAG,"LEFT_KNEE( x ) : ${key_point.coordinate.x}")
-                    Log.e(TAG,"LEFT_KNEE( y ) : ${key_point.coordinate.y}")
                 }
-                "LEFT_ANKLE" -> {
+                "RIGHT_KNEE" -> {// 14
+                    LegSwingModel.rightKnee_x = key_point.coordinate.x
+                    LegSwingModel.rightKnee_y = key_point.coordinate.y
+                }
+                "LEFT_ANKLE" -> {// 15
                     LegSwingModel.leftAnkle_x = key_point.coordinate.x
                     LegSwingModel.leftAnkle_y = key_point.coordinate.y
-                    Log.e(TAG,"BodyPart : ${key_point.bodyPart}")
-                    Log.e(TAG,"LEFT_ANKLE( x ) : ${key_point.coordinate.x}")
-                    Log.e(TAG,"LEFT_ANKLE( y ) : ${key_point.coordinate.y}")
+                }
+                "RIGHT_ANKLE" -> {// 16
+                    LegSwingModel.rightAnkle_x = key_point.coordinate.x
+                    LegSwingModel.rightAnkle_y = key_point.coordinate.y
                 }
             }
-
-
         }
         Log.e(TAG,"구분선 : ----------------------------------------------------------------")
+
+
+
         // 비트맵 1프레임을 완성했을때 마다 각도 계산해서 보여주기
-//        getDegree()
-        LegSwingModel.getVerticalLegDegree()
+//        LegSwingModel.getDegree()
+//        LegSwingModel.getVerticalLegDegree()
+        LegSwingModel.checkUpperBody()
         return output
     }
 
