@@ -190,7 +190,10 @@ object VisualizationUtils {
 
         val degreeRadian = atan2((leftKnee_y-leftHip_y),(leftKnee_x-leftHip_x))
         val degree = degreeRadian*(180.0 / Math.PI)
-        Log.e(TAG,"왼쪽 허리각 Radian : $degreeRadian")
-        Log.e(TAG,"왼쪽 허리각 각도 : $degree")
+        val degreeReverse = (degree-90)*-1
+
+        Log.e(TAG,"오른쪽 허리각 Radian : $degreeRadian")
+        Log.e(TAG,"오른쪽 허리각 각도 : $degree")
+        Log.e(TAG,"오른쪽 허리각 각도 반전 : $degreeReverse")
     }
 }
