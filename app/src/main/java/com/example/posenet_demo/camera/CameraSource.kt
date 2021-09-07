@@ -16,6 +16,8 @@ import android.os.HandlerThread
 import android.util.Log
 import android.view.Surface
 import android.view.SurfaceView
+import android.widget.Toast
+import com.example.posenet_demo.MainActivity
 import kotlinx.coroutines.suspendCancellableCoroutine
 import com.example.posenet_demo.VisualizationUtils
 import com.example.posenet_demo.YuvToRgbConverter
@@ -27,6 +29,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 class CameraSource(
+    private val context: Context,
     private val surfaceView: SurfaceView,
     private val listener: CameraSourceListener? = null
 ) {
@@ -247,7 +250,10 @@ class CameraSource(
         var outputBitmap = bitmap
 
         if (person.score > MIN_CONFIDENCE) {
-            outputBitmap = VisualizationUtils.drawBodyKeypoints(bitmap, person)
+
+            Toast.makeText(surfaceView.context, "22222222222222222", Toast.LENGTH_SHORT).show()
+
+            outputBitmap = VisualizationUtils.drawBodyKeypoints(bitmap, person, context)
         }
 
         val holder = surfaceView.holder

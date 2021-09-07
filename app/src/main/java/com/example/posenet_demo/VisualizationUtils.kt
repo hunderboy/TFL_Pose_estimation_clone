@@ -1,5 +1,6 @@
 package com.example.posenet_demo
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -47,11 +48,11 @@ object VisualizationUtils {
 
 
 
-    /** Draw line and point indicate body pose
-     * 라인과 포인트 그리는 함수
-     * 이부분을 거쳐야지만 최종적으로 화면에 그릴수 있음
+    /**
+     * 라인과 포인트 그리는 함수 (Draw line and point indicate body pose)
+     * 이부분을 거쳐야지만 화면에 관절과 뼈대를 그릴수 있음
      */
-    fun drawBodyKeypoints(input: Bitmap, person: Person): Bitmap {
+    fun drawBodyKeypoints(input: Bitmap, person: Person, context: Context): Bitmap {
 
         /**
          * 관절, 뼈대 를 그릴 포인트 준비
@@ -148,7 +149,7 @@ object VisualizationUtils {
         // 비트맵 1프레임을 완성했을때 마다 각도 계산해서 보여주기
 //        LegSwingModel.getDegree()
 //        LegSwingModel.getVerticalLegDegree()
-        LegSwingModel.checkUpperBody()
+        LegSwingModel.checkUpperBody(context)
         return output
     }
 

@@ -1,6 +1,10 @@
 package com.example.posenet_demo
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.example.posenet_demo.data.Person
 import kotlin.math.atan2
 
@@ -49,7 +53,8 @@ object LegSwingModel {
     var rightAnkle_x :Float = 0f
     var rightAnkle_y :Float = 0f
 
-
+    // toast
+    var toast : Toast? = null
 
     // 부호 변환 함수
     fun singConversion(degree: Double): Double {
@@ -89,6 +94,11 @@ object LegSwingModel {
         val degree = singConversion(degreeRadian*(180.0 / Math.PI))
         Log.e(TAG,"왼쪽 무릎 Radian : $degreeRadian")
         Log.e(TAG,"왼쪽 무릎 각도 : $degree")
+
+        if(degree < 160){
+            // Toast.makeText(MyApplication.getApplicationContext(), "토스트 메세지 띄우기 입니다.", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     /**
@@ -101,7 +111,7 @@ object LegSwingModel {
      * 중앙점 = leftHip
      * 이동하는 점 = leftShoulder
      */
-    fun checkUpperBody(){
+    fun checkUpperBody(context: Context){
         // 오른쪽 허리 각도
 //        val paramY_rightWaist = leftShoulder_y - leftHip_y
 //        val paramX_rightWaist = leftShoulder_x - leftHip_x
@@ -122,6 +132,19 @@ object LegSwingModel {
         Log.e(TAG,"왼쪽 허리각 각도 : $degree_leftWaist")
         Log.e(TAG,"왼쪽 허리각 각도 반전 : $degreeReverse_leftWaist")
 
+        // 한번 토스트를 띄우면 토스트가 꺼질때 까지 기다렸다가
+        // 아직도 조건을 만족하면 다시 토스트를 띄운다. (계속 Toast를 뜨게하는것 방지)
+
+        if(degreeReverse_leftWaist.toInt() < 70){
+            Log.e(TAG,"들어감?")
+            Toast.makeText(context, "상체를 곧게 유지해 주세요", Toast.LENGTH_LONG).show()
+
+//            if (toast==null){
+//                Log.e(TAG,"들어감?null")
+//                toast = Toast.makeText(context, "상체를 곧게 유지해 주세요", Toast.LENGTH_LONG)
+//            }
+//            toast?.show()
+        }
     }
 
 

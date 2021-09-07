@@ -123,6 +123,7 @@ class MainActivity : AppCompatActivity() {
         if (!isCameraPermissionGranted()) {
             requestPermission()
         }
+//        Toast.makeText(this, "안녕하세요", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStart() {
@@ -155,7 +156,7 @@ class MainActivity : AppCompatActivity() {
         if (isCameraPermissionGranted()) {
             if (cameraSource == null) {
                 cameraSource =
-                    CameraSource(surfaceView, object : CameraSource.CameraSourceListener {
+                    CameraSource(this, surfaceView, object : CameraSource.CameraSourceListener {
                         override fun onFPSListener(fps: Int) {
                             tvFPS.text = getString(R.string.tfe_pe_tv_fps, fps)
                         }
