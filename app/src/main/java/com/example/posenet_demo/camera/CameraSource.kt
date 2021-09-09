@@ -18,6 +18,7 @@ import android.view.Surface
 import android.view.SurfaceView
 import android.widget.Toast
 import com.example.posenet_demo.MainActivity
+import com.example.posenet_demo.MyApplication
 import kotlinx.coroutines.suspendCancellableCoroutine
 import com.example.posenet_demo.VisualizationUtils
 import com.example.posenet_demo.YuvToRgbConverter
@@ -250,10 +251,9 @@ class CameraSource(
         var outputBitmap = bitmap
 
         if (person.score > MIN_CONFIDENCE) {
-
-            Toast.makeText(surfaceView.context, "22222222222222222", Toast.LENGTH_SHORT).show()
-
             outputBitmap = VisualizationUtils.drawBodyKeypoints(bitmap, person, context)
+            Toast.makeText(MyApplication.getApplicationContext(),"상체를 곧게 유지해 주세요", Toast.LENGTH_LONG).show()
+//            Toast.makeText(context, "상체를 곧게 유지해 주세요", Toast.LENGTH_LONG).show()
         }
 
         val holder = surfaceView.holder

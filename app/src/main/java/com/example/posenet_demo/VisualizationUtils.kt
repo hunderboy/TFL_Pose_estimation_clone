@@ -93,66 +93,63 @@ object VisualizationUtils {
             // 3가지 관절 포인트를 찾는다.
             when(key_point.bodyPart.toString()) {
                 "LEFT_SHOULDER" -> { // 5
-                    LegSwingModel.leftShoulder_x = key_point.coordinate.x
-                    LegSwingModel.leftShoulder_y = key_point.coordinate.y
+                    XYcoordinates.leftShoulder_x = key_point.coordinate.x
+                    XYcoordinates.leftShoulder_y = key_point.coordinate.y
                 }
                 "RIGHT_SHOULDER" -> { // 6
-                    LegSwingModel.rightShoulder_x = key_point.coordinate.x
-                    LegSwingModel.rightShoulder_y = key_point.coordinate.y
+                    XYcoordinates.rightShoulder_x = key_point.coordinate.x
+                    XYcoordinates.rightShoulder_y = key_point.coordinate.y
                 }
                 "LEFT_ELBOW" -> { // 7
-                    LegSwingModel.leftElbow_x = key_point.coordinate.x
-                    LegSwingModel.leftElbow_y = key_point.coordinate.y
+                    XYcoordinates.leftElbow_x = key_point.coordinate.x
+                    XYcoordinates.leftElbow_y = key_point.coordinate.y
                 }
                 "RIGHT_ELBOW" -> {// 8
-                    LegSwingModel.rightElbow_x = key_point.coordinate.x
-                    LegSwingModel.rightElbow_y = key_point.coordinate.y
+                    XYcoordinates.rightElbow_x = key_point.coordinate.x
+                    XYcoordinates.rightElbow_y = key_point.coordinate.y
                 }
                 "LEFT_WRIST" -> {// 9
-                    LegSwingModel.leftWrist_x = key_point.coordinate.x
-                    LegSwingModel.leftWrist_y = key_point.coordinate.y
+                    XYcoordinates.leftWrist_x = key_point.coordinate.x
+                    XYcoordinates.leftWrist_y = key_point.coordinate.y
                 }
                 "RIGHT_WRIST" -> {// 10
-                    LegSwingModel.rightWrist_x = key_point.coordinate.x
-                    LegSwingModel.rightWrist_y = key_point.coordinate.y
+                    XYcoordinates.rightWrist_x = key_point.coordinate.x
+                    XYcoordinates.rightWrist_y = key_point.coordinate.y
                 }
                 "LEFT_HIP" -> { // 11
-                    LegSwingModel.leftHip_x = key_point.coordinate.x
-                    LegSwingModel.leftHip_y = key_point.coordinate.y
+                    XYcoordinates.leftHip_x = key_point.coordinate.x
+                    XYcoordinates.leftHip_y = key_point.coordinate.y
                 }
                 "RIGHT_HIP" -> { // 12
-                    LegSwingModel.rightHip_x = key_point.coordinate.x
-                    LegSwingModel.rightHip_y = key_point.coordinate.y
+                    XYcoordinates.rightHip_x = key_point.coordinate.x
+                    XYcoordinates.rightHip_y = key_point.coordinate.y
                 }
                 "LEFT_KNEE" -> { // 13
-                    LegSwingModel.leftKnee_x = key_point.coordinate.x
-                    LegSwingModel.leftKnee_y = key_point.coordinate.y
+                    XYcoordinates.leftKnee_x = key_point.coordinate.x
+                    XYcoordinates.leftKnee_y = key_point.coordinate.y
                 }
                 "RIGHT_KNEE" -> {// 14
-                    LegSwingModel.rightKnee_x = key_point.coordinate.x
-                    LegSwingModel.rightKnee_y = key_point.coordinate.y
+                    XYcoordinates.rightKnee_x = key_point.coordinate.x
+                    XYcoordinates.rightKnee_y = key_point.coordinate.y
                 }
                 "LEFT_ANKLE" -> {// 15
-                    LegSwingModel.leftAnkle_x = key_point.coordinate.x
-                    LegSwingModel.leftAnkle_y = key_point.coordinate.y
+                    XYcoordinates.leftAnkle_x = key_point.coordinate.x
+                    XYcoordinates.leftAnkle_y = key_point.coordinate.y
                 }
                 "RIGHT_ANKLE" -> {// 16
-                    LegSwingModel.rightAnkle_x = key_point.coordinate.x
-                    LegSwingModel.rightAnkle_y = key_point.coordinate.y
+                    XYcoordinates.rightAnkle_x = key_point.coordinate.x
+                    XYcoordinates.rightAnkle_y = key_point.coordinate.y
                 }
             }
         }
         Log.e(TAG,"구분선 : ----------------------------------------------------------------")
 
-
-
         // 비트맵 1프레임을 완성했을때 마다 각도 계산해서 보여주기
-//        LegSwingModel.getDegree()
-//        LegSwingModel.getVerticalLegDegree()
-        LegSwingModel.checkUpperBody(context)
-        return output
-    }
+        val standingSideRaiseModel = StandingSideRaiseModel()
+        standingSideRaiseModel.getDegree(context)
 
+        return output
+    }// drawBodyKeypoints 끝
 
 
 }
