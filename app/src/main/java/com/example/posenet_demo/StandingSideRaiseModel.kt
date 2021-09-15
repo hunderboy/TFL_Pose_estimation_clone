@@ -1,6 +1,5 @@
 package com.example.posenet_demo
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -17,10 +16,15 @@ import com.example.posenet_demo.XYcoordinates.rightKnee_y
 import com.example.posenet_demo.XYcoordinates.rightShoulder_x
 import com.example.posenet_demo.XYcoordinates.rightShoulder_y
 import com.example.posenet_demo.XYcoordinates.singConversion
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
 
 import kotlin.math.atan2
 
-class StandingSideRaiseModel() {
+class StandingSideRaiseModel {
 
     private val TAG = "StandingSideRaiseModel"
 
@@ -30,7 +34,7 @@ class StandingSideRaiseModel() {
      * 중앙점 = leftHip
      * 이동하는 점 = leftKnee
      */
-    fun getDegree(context: Context){
+    fun getSideDegree(){
         val paramY = leftKnee_y - leftHip_y
         val paramX = leftKnee_x - leftHip_x
         val degreeRadian = atan2(paramY,paramX)
@@ -40,9 +44,55 @@ class StandingSideRaiseModel() {
         Log.e(TAG,"오른쪽 허벅지 사이각 : $degree")
         Log.e(TAG,"오른쪽 허벅지 사이각 반전 : $degreeReverse")
 
-        Toast.makeText(context, "상체를 곧게 유지해 주세요", Toast.LENGTH_LONG).show()
-        Toast.makeText(MyApplication.getApplicationContext(), "상체를 곧게 유지해 주세요", Toast.LENGTH_LONG).show()
     }
+
+
+
+
+    /**
+     *  각 Item의 Progress Bar 의 secondary progress 을 진행.( = '준비중' 의미)
+     */
+    fun SideLegSwingTimer() {
+
+        var time = 0
+        var timerTask: Timer? = null
+
+        val timerScope = CoroutineScope(Dispatchers.IO).launch {
+
+            timerTask = kotlin.concurrent.timer(period = 1000) { // 1000 = 1초
+                time++ // 1초뒤에 1씩 증가
+                Log.e(TAG,"time : $time")
+                // 5.0 초 가 되는 순간, timerTask 중단 하고 Exercies progress 재생
+//                if (time == exerciseList[index]?.readyProgressMaxValue) {
+//                    readyTimerTask?.cancel() // readyProgress 종료
+//                    runOnUiThread {
+//                        // 데이터 초기화
+//                        time = 0
+//                        exerciseList[index]?.readyProgressValue = 0
+//                        exerciseList[index]?.readyIsRunning = false
+//                        // Todo 해당 포지션만 변경
+//                        changeItemData(exerciseList) // 데이터 변경 적용
+//                        // 운동 프로그래스 초기화 함수로 이동
+//                        initExerciseProgress(index)
+//                    }
+//                } else {
+//                    runOnUiThread {
+//                        exerciseList[index]?.readyProgressValue =
+//                            exerciseList[index]?.readyProgressValue?.plus(1)!!
+//                        // Todo 해당 포지션만 변경
+//                        changeItemData(exerciseList) // 데이터 변경 적용
+//                    }
+//                }
+            }
+//            withContext(Dispatchers.Main) {
+//                Toast.makeText(MyApplication.getApplicationContext(), "dfdf", Toast.LENGTH_SHORT).show()
+//            }
+        }
+        timerScope.isActive
+
+    }
+
+
 
     /**
      * 2. 지탱다리 수직 체크

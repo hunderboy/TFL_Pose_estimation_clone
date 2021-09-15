@@ -1,18 +1,11 @@
 package com.example.posenet_demo
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.Application
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
-import com.example.posenet_demo.data.Person
-import kotlin.math.atan2
-
-
+/**
+ * x y 좌표
+ */
 object XYcoordinates {
 
-    private const val TAG = "LegSwingModel"
+    private const val TAG = "XYcoordinates"
 
     /**
      * 관절 좌표 x y

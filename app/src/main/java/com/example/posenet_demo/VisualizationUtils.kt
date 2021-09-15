@@ -1,6 +1,5 @@
 package com.example.posenet_demo
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -8,6 +7,7 @@ import android.graphics.Paint
 import android.util.Log
 import com.example.posenet_demo.data.BodyPart
 import com.example.posenet_demo.data.Person
+import com.example.posenet_demo.mvvm.MainViewModel
 
 
 /**
@@ -45,14 +45,11 @@ object VisualizationUtils {
     )
 
 
-
-
-
     /**
      * 라인과 포인트 그리는 함수 (Draw line and point indicate body pose)
      * 이부분을 거쳐야지만 화면에 관절과 뼈대를 그릴수 있음
      */
-    fun drawBodyKeypoints(input: Bitmap, person: Person, context: Context): Bitmap {
+    fun drawBodyKeypoints(input: Bitmap, person: Person, viewModel: MainViewModel): Bitmap {
 
         /**
          * 관절, 뼈대 를 그릴 포인트 준비
@@ -68,7 +65,7 @@ object VisualizationUtils {
             style = Paint.Style.FILL
         }
 
-        val output = input.copy(Bitmap.Config.ARGB_8888,true)
+        val output = input.copy(Bitmap.Config.ARGB_8888, true)
         val originalSizeCanvas = Canvas(output)
 
         /** forEach 반복문
@@ -91,7 +88,7 @@ object VisualizationUtils {
                 paintCircle     // 원형을 그리기 위한 미리 준비한 변수 적용
             )
             // 3가지 관절 포인트를 찾는다.
-            when(key_point.bodyPart.toString()) {
+            when (key_point.bodyPart.toString()) {
                 "LEFT_SHOULDER" -> { // 5
                     XYcoordinates.leftShoulder_x = key_point.coordinate.x
                     XYcoordinates.leftShoulder_y = key_point.coordinate.y
@@ -142,11 +139,10 @@ object VisualizationUtils {
                 }
             }
         }
-        Log.e(TAG,"구분선 : ----------------------------------------------------------------")
 
-        // 비트맵 1프레임을 완성했을때 마다 각도 계산해서 보여주기
-        val standingSideRaiseModel = StandingSideRaiseModel()
-        standingSideRaiseModel.getDegree(context)
+        // ViewModel 의 LiveData 에 데이터 변경
+        viewModel.changeXYData()
+
 
         return output
     }// drawBodyKeypoints 끝

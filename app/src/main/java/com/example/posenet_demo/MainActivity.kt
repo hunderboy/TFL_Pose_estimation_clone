@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Process
+import android.util.Log
 import android.view.SurfaceView
 import android.view.View
 import android.view.WindowManager
@@ -15,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,11 +27,20 @@ import com.example.posenet_demo.ml.ModelType
 import com.example.posenet_demo.ml.MoveNet
 import com.example.posenet_demo.ml.PoseClassifier
 import com.example.posenet_demo.ml.PoseNet
+import com.example.posenet_demo.mvvm.MainViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
+    private val TAG = "MainActivity"
+
     companion object {
         private const val FRAGMENT_DIALOG = "dialog"
     }
+
+    // viewModel
+    lateinit var mainViewModel : MainViewModel
+
 
     /** A [SurfaceView] for camera preview.   */
     private lateinit var surfaceView: SurfaceView
@@ -124,8 +136,54 @@ class MainActivity : AppCompatActivity() {
             requestPermission()
         }
 //        Toast.makeText(this, "안녕하세요", Toast.LENGTH_SHORT).show()
-        Toast.makeText(MyApplication.getApplicationContext(), "안녕하세요", Toast.LENGTH_SHORT).show()
-    }
+
+        // create basic view model 뷰모델 생성
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        // 스탠딩사이드레그레이즈 모델
+        val standingSideRaiseModel = StandingSideRaiseModel()
+
+        // observe live data 라이브 데이터를 계속 지켜보고 있게끔
+        mainViewModel.xyLiveData.observe(this, Observer {
+            Log.e(TAG,"xyLiveData.observe : 들어옴")
+            Toast.makeText(this, "상체를 곧게 유지해 주세요", Toast.LENGTH_LONG).show()
+
+            /**
+             * xy 좌표 데이터가 변경 될때 마다
+             * 해당 필요한 좌표값을 가지고
+             * 조건을 만족할시에 Toast 를 띄운다.
+             */
+            /**
+             * xy 좌표 데이터가 변경 될때 마다
+             * 해당 필요한 좌표값을 가지고
+             * 조건을 만족할시에 Toast 를 띄운다.
+             */
+
+//            val sideDegree = standingSideRaiseModel.getSideDegree()
+            val timer = standingSideRaiseModel.SideLegSwingTimer()
+
+            /**
+             1. 각도 계산 하여 가져오고
+             2. 계산된 각도를 40도 이상인지 대입
+             */
+
+            /**
+             1. 각도 계산 하여 가져오고
+             2. 계산된 각도를 40도 이상인지 대입
+             */
+
+        })
+
+    }// onCreate 끝
+
+
+
+
+
+
+
+
+
 
     override fun onStart() {
         super.onStart()
@@ -157,7 +215,7 @@ class MainActivity : AppCompatActivity() {
         if (isCameraPermissionGranted()) {
             if (cameraSource == null) {
                 cameraSource =
-                    CameraSource(this, surfaceView, object : CameraSource.CameraSourceListener {
+                    CameraSource(mainViewModel, surfaceView, object : CameraSource.CameraSourceListener {
                         override fun onFPSListener(fps: Int) {
                             tvFPS.text = getString(R.string.tfe_pe_tv_fps, fps)
                         }
