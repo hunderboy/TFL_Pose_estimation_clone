@@ -9,26 +9,20 @@ import com.example.posenet_demo.XYcoordinates
 class MainViewModel : ViewModel() {
     val TAG = "ViewModel"
 
-//    private var count = 0
-//    // 뮤터블 라이브 데이터 생성 - get,set 가능
-//    private val _countText : MutableLiveData<String> = MutableLiveData()
-//    // View 단에서 읽기 접근만 가능하게
-//    val liveData: LiveData<String> get() = _countText
-//
-//
-//    fun init() {
-//        _countText.value = "click count : $count"
-//    }
-//
-//    fun clickButton() {
-//        _countText.value = "click count : ${++count}"
-//    }
-//
-//    override fun onCleared() {
-//        Log.d(TAG, "## MainViewModel - onCleared() called!!")
-//        Log.d(TAG, "## count = $count")
-//        super.onCleared()
-//    }
+    private var count = 0
+    // 뮤터블 라이브 데이터 생성 - get,set 가능
+    private val _countText : MutableLiveData<String> = MutableLiveData()
+    // View 단에서 읽기 접근만 가능하게
+    val liveData: LiveData<String> get() = _countText
+
+
+    fun init() {
+        _countText.value = "click count : $count"
+    }
+
+    fun clickButton() {
+        _countText.value = "click count : ${++count}"
+    }
 
 // ------------------------------------------------------------------------------------------------
 

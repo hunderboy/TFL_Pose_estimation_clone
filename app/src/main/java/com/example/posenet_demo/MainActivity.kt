@@ -28,8 +28,9 @@ import com.example.posenet_demo.ml.MoveNet
 import com.example.posenet_demo.ml.PoseClassifier
 import com.example.posenet_demo.ml.PoseNet
 import com.example.posenet_demo.mvvm.MainViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlin.concurrent.thread
+import kotlinx.android.synthetic.main.activity_main.*
+
+
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
@@ -63,6 +64,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvClassificationValue2: TextView
     private lateinit var tvClassificationValue3: TextView
     private lateinit var swClassification: SwitchCompat
+
+    private lateinit var text_desc1: TextView
+    private lateinit var button_class: Button
+
     private var cameraSource: CameraSource? = null
     private var isClassifyPose = false
     private val requestPermissionLauncher =
@@ -129,6 +134,10 @@ class MainActivity : AppCompatActivity() {
         tvClassificationValue2 = findViewById(R.id.tvClassificationValue2)
         tvClassificationValue3 = findViewById(R.id.tvClassificationValue3)
         swClassification = findViewById(R.id.swPoseClassification)
+
+        text_desc1 = findViewById(R.id.text_desc1)
+        button_class = findViewById(R.id.button_class)
+
         initSpinner()
         spnModel.setSelection(modelPos)
         swClassification.setOnCheckedChangeListener(setClassificationListener)
@@ -173,6 +182,24 @@ class MainActivity : AppCompatActivity() {
              */
 
         })
+
+
+        swClassification = findViewById(R.id.swPoseClassification)
+        swClassification = findViewById(R.id.swPoseClassification)
+
+        // observe live data 라이브 데이터를 계속 지켜보고 있게끔
+        mainViewModel.liveData.observe(this, Observer {
+            // it 는 LiveData 로 선언된 countText 가 변경되었을 때 전달되는 값(String 형)
+            text_desc1.text = it
+        })
+
+        // initialize view model 위 내용 뷰모델에 적용
+        mainViewModel.init()
+
+        // update UI 버튼 누를 때마다 뷰모델의 clickButton 메소드 실행
+        button_class.setOnClickListener {
+            mainViewModel.clickButton()
+        }
 
     }// onCreate 끝
 
