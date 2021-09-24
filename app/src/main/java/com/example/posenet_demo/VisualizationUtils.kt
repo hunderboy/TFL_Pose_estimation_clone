@@ -8,6 +8,7 @@ import android.util.Log
 import com.example.posenet_demo.data.BodyPart
 import com.example.posenet_demo.data.Person
 import com.example.posenet_demo.mvvm.MainViewModel
+import com.example.posenet_demo.mvvm.XYdata
 
 
 /**
@@ -44,6 +45,8 @@ object VisualizationUtils {
         Pair(BodyPart.RIGHT_KNEE, BodyPart.RIGHT_ANKLE)
     )
 
+    private val newXY = XYdata()
+    
 
     /**
      * 라인과 포인트 그리는 함수 (Draw line and point indicate body pose)
@@ -51,15 +54,14 @@ object VisualizationUtils {
      */
     fun drawBodyKeypoints(input: Bitmap, person: Person, viewModel: MainViewModel): Bitmap {
 
-        /**
-         * 관절, 뼈대 를 그릴 포인트 준비
-         */
-        val paintCircle = Paint().apply { // 관절 포인트 (RED)
+        // 관절 포인트 (RED)
+        val paintCircle = Paint().apply {
             strokeWidth = CIRCLE_RADIUS
             color = Color.RED
             style = Paint.Style.FILL
         }
-        val paintLine = Paint().apply { // 뼈대 라인 (WHITE)
+        // 뼈대 라인 (WHITE)
+        val paintLine = Paint().apply {
             strokeWidth = LINE_WIDTH
             color = Color.WHITE
             style = Paint.Style.FILL
@@ -68,18 +70,16 @@ object VisualizationUtils {
         val output = input.copy(Bitmap.Config.ARGB_8888, true)
         val originalSizeCanvas = Canvas(output)
 
-        /** forEach 반복문
-         * 뼈대 라인 그리기
-         */
+
+        // 뼈대 라인 그리기
         bodyJoints.forEach {
             val pointA = person.keyPoints[it.first.position].coordinate
             val pointB = person.keyPoints[it.second.position].coordinate
             // (시작) float startX, float startY, (끝) float stopX, float stopY
             originalSizeCanvas.drawLine(pointA.x, pointA.y, pointB.x, pointB.y, paintLine)
         }
-        /** forEach 반복문
-         * 관절 포인트 원형점 그리기
-         */
+
+        // 관절 포인트 원형점 그리기
         person.keyPoints.forEach { key_point ->
             originalSizeCanvas.drawCircle(
                 key_point.coordinate.x, // 원형점을 그릴 x 좌표
@@ -87,61 +87,63 @@ object VisualizationUtils {
                 CIRCLE_RADIUS,  // 반지름 길이 설정
                 paintCircle     // 원형을 그리기 위한 미리 준비한 변수 적용
             )
-            // 3가지 관절 포인트를 찾는다.
+
+
+            // 관절 포인트의 명칭에 따른 x,y 좌표
             when (key_point.bodyPart.toString()) {
                 "LEFT_SHOULDER" -> { // 5
-                    XYcoordinates.leftShoulder_x = key_point.coordinate.x
-                    XYcoordinates.leftShoulder_y = key_point.coordinate.y
+                    newXY.leftShoulder_x = key_point.coordinate.x
+                    newXY.leftShoulder_y = key_point.coordinate.y
                 }
                 "RIGHT_SHOULDER" -> { // 6
-                    XYcoordinates.rightShoulder_x = key_point.coordinate.x
-                    XYcoordinates.rightShoulder_y = key_point.coordinate.y
+                    newXY.rightShoulder_x = key_point.coordinate.x
+                    newXY.rightShoulder_y = key_point.coordinate.y
                 }
                 "LEFT_ELBOW" -> { // 7
-                    XYcoordinates.leftElbow_x = key_point.coordinate.x
-                    XYcoordinates.leftElbow_y = key_point.coordinate.y
+                    newXY.leftElbow_x = key_point.coordinate.x
+                    newXY.leftElbow_y = key_point.coordinate.y
                 }
                 "RIGHT_ELBOW" -> {// 8
-                    XYcoordinates.rightElbow_x = key_point.coordinate.x
-                    XYcoordinates.rightElbow_y = key_point.coordinate.y
+                    newXY.rightElbow_x = key_point.coordinate.x
+                    newXY.rightElbow_y = key_point.coordinate.y
                 }
                 "LEFT_WRIST" -> {// 9
-                    XYcoordinates.leftWrist_x = key_point.coordinate.x
-                    XYcoordinates.leftWrist_y = key_point.coordinate.y
+                    newXY.leftWrist_x = key_point.coordinate.x
+                    newXY.leftWrist_y = key_point.coordinate.y
                 }
                 "RIGHT_WRIST" -> {// 10
-                    XYcoordinates.rightWrist_x = key_point.coordinate.x
-                    XYcoordinates.rightWrist_y = key_point.coordinate.y
+                    newXY.rightWrist_x = key_point.coordinate.x
+                    newXY.rightWrist_y = key_point.coordinate.y
                 }
                 "LEFT_HIP" -> { // 11
-                    XYcoordinates.leftHip_x = key_point.coordinate.x
-                    XYcoordinates.leftHip_y = key_point.coordinate.y
+                    newXY.leftHip_x = key_point.coordinate.x
+                    newXY.leftHip_y = key_point.coordinate.y
                 }
                 "RIGHT_HIP" -> { // 12
-                    XYcoordinates.rightHip_x = key_point.coordinate.x
-                    XYcoordinates.rightHip_y = key_point.coordinate.y
+                    newXY.rightHip_x = key_point.coordinate.x
+                    newXY.rightHip_y = key_point.coordinate.y
                 }
                 "LEFT_KNEE" -> { // 13
-                    XYcoordinates.leftKnee_x = key_point.coordinate.x
-                    XYcoordinates.leftKnee_y = key_point.coordinate.y
+                    newXY.leftKnee_x = key_point.coordinate.x
+                    newXY.leftKnee_y = key_point.coordinate.y
                 }
                 "RIGHT_KNEE" -> {// 14
-                    XYcoordinates.rightKnee_x = key_point.coordinate.x
-                    XYcoordinates.rightKnee_y = key_point.coordinate.y
+                    newXY.rightKnee_x = key_point.coordinate.x
+                    newXY.rightKnee_y = key_point.coordinate.y
                 }
                 "LEFT_ANKLE" -> {// 15
-                    XYcoordinates.leftAnkle_x = key_point.coordinate.x
-                    XYcoordinates.leftAnkle_y = key_point.coordinate.y
+                    newXY.leftAnkle_x = key_point.coordinate.x
+                    newXY.leftAnkle_y = key_point.coordinate.y
                 }
                 "RIGHT_ANKLE" -> {// 16
-                    XYcoordinates.rightAnkle_x = key_point.coordinate.x
-                    XYcoordinates.rightAnkle_y = key_point.coordinate.y
+                    newXY.rightAnkle_x = key_point.coordinate.x
+                    newXY.rightAnkle_y = key_point.coordinate.y
                 }
             }
-        }
+        }// when 끝
 
         // ViewModel 의 LiveData 에 데이터 변경
-        viewModel.changeXYData()
+        viewModel.changeXYData(newXY)
 
 
         return output

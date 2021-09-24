@@ -29,7 +29,7 @@ import com.example.posenet_demo.ml.PoseClassifier
 import com.example.posenet_demo.ml.PoseNet
 import com.example.posenet_demo.mvvm.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-
+import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         private const val FRAGMENT_DIALOG = "dialog"
     }
 
-    // viewModel
+    // MainViewModel
     lateinit var mainViewModel : MainViewModel
 
 
@@ -65,8 +65,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvClassificationValue3: TextView
     private lateinit var swClassification: SwitchCompat
 
-    private lateinit var text_desc1: TextView
-    private lateinit var button_class: Button
 
     private var cameraSource: CameraSource? = null
     private var isClassifyPose = false
@@ -135,16 +133,13 @@ class MainActivity : AppCompatActivity() {
         tvClassificationValue3 = findViewById(R.id.tvClassificationValue3)
         swClassification = findViewById(R.id.swPoseClassification)
 
-        text_desc1 = findViewById(R.id.text_desc1)
-        button_class = findViewById(R.id.button_class)
-
         initSpinner()
         spnModel.setSelection(modelPos)
         swClassification.setOnCheckedChangeListener(setClassificationListener)
         if (!isCameraPermissionGranted()) {
             requestPermission()
         }
-//        Toast.makeText(this, "안녕하세요", Toast.LENGTH_SHORT).show()
+
 
         // create basic view model 뷰모델 생성
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
@@ -155,51 +150,20 @@ class MainActivity : AppCompatActivity() {
         // observe live data 라이브 데이터를 계속 지켜보고 있게끔
         mainViewModel.xyLiveData.observe(this, Observer {
             Log.e(TAG,"xyLiveData.observe : 들어옴")
-            Toast.makeText(this, "상체를 곧게 유지해 주세요", Toast.LENGTH_LONG).show()
+            // Toast.makeText(this, "상체를 곧게 유지해 주세요", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "데이터 : ${it.leftAnkle_x}", Toast.LENGTH_LONG).show()
 
             /**
              * xy 좌표 데이터가 변경 될때 마다
              * 해당 필요한 좌표값을 가지고
              * 조건을 만족할시에 Toast 를 띄운다.
              */
-            /**
-             * xy 좌표 데이터가 변경 될때 마다
-             * 해당 필요한 좌표값을 가지고
-             * 조건을 만족할시에 Toast 를 띄운다.
-             */
-
 //            val sideDegree = standingSideRaiseModel.getSideDegree()
-            val timer = standingSideRaiseModel.SideLegSwingTimer()
-
-            /**
-             1. 각도 계산 하여 가져오고
-             2. 계산된 각도를 40도 이상인지 대입
-             */
-
-            /**
-             1. 각도 계산 하여 가져오고
-             2. 계산된 각도를 40도 이상인지 대입
-             */
-
+//            val timer = standingSideRaiseModel.SideLegSwingTimer()
         })
-
-
-        swClassification = findViewById(R.id.swPoseClassification)
-        swClassification = findViewById(R.id.swPoseClassification)
-
-        // observe live data 라이브 데이터를 계속 지켜보고 있게끔
-        mainViewModel.liveData.observe(this, Observer {
-            // it 는 LiveData 로 선언된 countText 가 변경되었을 때 전달되는 값(String 형)
-            text_desc1.text = it
-        })
-
         // initialize view model 위 내용 뷰모델에 적용
         mainViewModel.init()
 
-        // update UI 버튼 누를 때마다 뷰모델의 clickButton 메소드 실행
-        button_class.setOnClickListener {
-            mainViewModel.clickButton()
-        }
 
     }// onCreate 끝
 
