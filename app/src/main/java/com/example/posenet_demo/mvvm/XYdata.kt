@@ -1,10 +1,13 @@
 package com.example.posenet_demo.mvvm
 
+/**
+ * @author : 이성훈
+ * @date : 2021-09-22
+ * @description :
+ * 관절 x y 좌표를 가지고 있는 Data Class
+ */
 data class XYdata(
 
-    /**
-     * 관절 좌표 x y
-     */
     // 왼쪽 어깨 - 5
     var leftShoulder_x :Float = 0f,
     var leftShoulder_y :Float = 0f,
@@ -41,5 +44,4 @@ data class XYdata(
     // 오른쪽 발목 - 16
     var rightAnkle_x :Float = 0f,
     var rightAnkle_y :Float = 0f,
-
 )

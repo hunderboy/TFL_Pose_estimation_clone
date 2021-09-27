@@ -252,8 +252,6 @@ class CameraSource(
 
         if (person.score > MIN_CONFIDENCE) {
             outputBitmap = VisualizationUtils.drawBodyKeypoints(bitmap, person, viewModel)
-            Toast.makeText(MyApplication.getApplicationContext(),"상체를 곧게 유지해 주세요", Toast.LENGTH_LONG).show()
-//            Toast.makeText(context, "상체를 곧게 유지해 주세요", Toast.LENGTH_LONG).show()
         }
 
         val holder = surfaceView.holder

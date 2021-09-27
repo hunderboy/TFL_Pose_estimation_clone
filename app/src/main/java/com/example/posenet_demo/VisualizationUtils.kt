@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.util.Log
 import com.example.posenet_demo.data.BodyPart
 import com.example.posenet_demo.data.Person
 import com.example.posenet_demo.mvvm.MainViewModel
@@ -45,8 +44,11 @@ object VisualizationUtils {
         Pair(BodyPart.RIGHT_KNEE, BodyPart.RIGHT_ANKLE)
     )
 
+    // 관절 xy 좌표 (매번 frame 이 변경될때 마다 새로운 관절 xy 좌표 가 설정됨 )
     private val newXY = XYdata()
-    
+
+    // 스탠딩사이드레그레이즈
+    private val standingSideRaiseModel = StandingSideRaiseModel()
 
     /**
      * 라인과 포인트 그리는 함수 (Draw line and point indicate body pose)
@@ -140,10 +142,16 @@ object VisualizationUtils {
                     newXY.rightAnkle_y = key_point.coordinate.y
                 }
             }
-        }// when 끝
+        }// when 끝 = 관절 xy 좌표 데이터 설정 완료
+
+        /**
+         * 관절 xy 좌표 가 설정되면, 해당 좌표값들을 가지고
+         1. 오른 다리 사이각 계산
+         */
+        val rightLegInnerDegrees = standingSideRaiseModel.getRightLegInnerDegrees(newXY)
 
         // ViewModel 의 LiveData 에 데이터 변경
-        viewModel.changeXYData(newXY)
+        viewModel.noticeRightLegDegree(rightLegInnerDegrees)
 
 
         return output

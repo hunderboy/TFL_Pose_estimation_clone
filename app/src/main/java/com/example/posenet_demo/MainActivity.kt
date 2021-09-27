@@ -141,28 +141,33 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+// 모션에 따른 Toast 모션알림 코드 -------------------------------------------------------------------
+
         // create basic view model 뷰모델 생성
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        // 스탠딩사이드레그레이즈 모델
-        val standingSideRaiseModel = StandingSideRaiseModel()
-
-        // observe live data 라이브 데이터를 계속 지켜보고 있게끔
-        mainViewModel.xyLiveData.observe(this, Observer {
-            Log.e(TAG,"xyLiveData.observe : 들어옴")
-            // Toast.makeText(this, "상체를 곧게 유지해 주세요", Toast.LENGTH_LONG).show()
-            Toast.makeText(this, "데이터 : ${it.leftAnkle_x}", Toast.LENGTH_LONG).show()
-
+        // LiveData Observer
+        mainViewModel.rightLegDegreeLiveData.observe(this, Observer {
             /**
-             * xy 좌표 데이터가 변경 될때 마다
-             * 해당 필요한 좌표값을 가지고
-             * 조건을 만족할시에 Toast 를 띄운다.
+             * 데이터를 표현하는건 OK.
+             * 이제 그럼 데이터를 계속 표현하는게 아니라 백그라운드에서 계산된 데이터를
+             * 조건문에 따라 보여줄것 이냐 안보여 줄것이냐를 판단 해야 함.(Toast)
              */
-//            val sideDegree = standingSideRaiseModel.getSideDegree()
-//            val timer = standingSideRaiseModel.SideLegSwingTimer()
+             Toast.makeText(this, "오른다리 각도 : ${it.toInt()}", Toast.LENGTH_SHORT).show()
         })
+
+        // LiveData Observer
+//        mainViewModel.xyLiveData.observe(this, Observer {
+//            // Log.e(TAG,"xyLiveData.observe : 들어옴")
+//            /**
+//             * 데이터를 표현하는건 OK.
+//             * 이제 그럼 데이터를 계속 표현하는게 아니라 백그라운드에서 계산된 데이터를
+//             * 조건문에 따라 보여줄것 이냐 안보여 줄것이냐를 판단 해야 함.(Toast)
+//             */
+//             Toast.makeText(this, "데이터 : ${it.leftAnkle_x}", Toast.LENGTH_SHORT).show()
+//        })
         // initialize view model 위 내용 뷰모델에 적용
-        mainViewModel.init()
+        // mainViewModel.init()
 
 
     }// onCreate 끝
