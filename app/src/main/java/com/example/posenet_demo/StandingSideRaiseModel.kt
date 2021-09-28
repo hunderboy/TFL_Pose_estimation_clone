@@ -56,10 +56,10 @@ class StandingSideRaiseModel {
         val degree = degreeRadian*(180.0 / Math.PI)
         val degreeReverse = singConversion((degree - 90)) // -90도 후 부호 변환
 
-        Log.e(TAG,"오른쪽 허벅지 사이각 Radian : $degreeRadian")
-        Log.e(TAG,"오른쪽 허벅지 사이각 : $degree")
-        // 원하는 오늘다리 내측 각도
-        Log.e(TAG,"오른쪽 허벅지 사이각 반전 : $degreeReverse")
+//        Log.e(TAG,"오른쪽 허벅지 사이각 Radian : $degreeRadian")
+//        Log.e(TAG,"오른쪽 허벅지 사이각 : $degree")
+//        // 원하는 오늘다리 내측 각도
+//        Log.e(TAG,"오른쪽 허벅지 사이각 반전 : $degreeReverse")
 
         return degreeReverse
     }

@@ -3,8 +3,10 @@ package com.example.posenet_demo
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Process
 import android.util.Log
 import android.view.SurfaceView
@@ -19,8 +21,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import com.example.posenet_demo.camera.CameraSource
 import com.example.posenet_demo.data.Device
 import com.example.posenet_demo.ml.ModelType
@@ -28,8 +28,9 @@ import com.example.posenet_demo.ml.MoveNet
 import com.example.posenet_demo.ml.PoseClassifier
 import com.example.posenet_demo.ml.PoseNet
 import com.example.posenet_demo.mvvm.MainViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.bottom_sheet_layout.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.concurrent.timer
 
 
 class MainActivity : AppCompatActivity() {
@@ -118,6 +119,29 @@ class MainActivity : AppCompatActivity() {
             isPoseClassifier()
         }
 
+    private var sToast: Toast? = null
+    fun showToast(context: Context, message: String) {
+        if (sToast == null) {
+            sToast = Toast.makeText(context, "오른다리 각도 : $message", Toast.LENGTH_LONG)
+        } else {
+            sToast!!.setText("오른다리 각도 : $message")
+        }
+        sToast!!.show()
+    }
+
+    fun timers() {
+        var second = 0
+        timer(period = 2000,initialDelay = 1000) {
+            second++
+            print(second)
+            if (second==2) {
+                sToast = null
+                cancel()
+            }
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -153,7 +177,12 @@ class MainActivity : AppCompatActivity() {
              * 이제 그럼 데이터를 계속 표현하는게 아니라 백그라운드에서 계산된 데이터를
              * 조건문에 따라 보여줄것 이냐 안보여 줄것이냐를 판단 해야 함.(Toast)
              */
-             Toast.makeText(this, "오른다리 각도 : ${it.toInt()}", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "오른다리 각도 : ${it.toInt()}", Toast.LENGTH_SHORT).show()
+
+            if (sToast == null){
+                timers()
+            }
+            showToast(this, it.toInt().toString())
         })
 
         // LiveData Observer
