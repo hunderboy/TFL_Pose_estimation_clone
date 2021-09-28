@@ -185,16 +185,6 @@ class MainActivity : AppCompatActivity() {
             showToast(this, it.toInt().toString())
         })
 
-        // LiveData Observer
-//        mainViewModel.xyLiveData.observe(this, Observer {
-//            // Log.e(TAG,"xyLiveData.observe : 들어옴")
-//            /**
-//             * 데이터를 표현하는건 OK.
-//             * 이제 그럼 데이터를 계속 표현하는게 아니라 백그라운드에서 계산된 데이터를
-//             * 조건문에 따라 보여줄것 이냐 안보여 줄것이냐를 판단 해야 함.(Toast)
-//             */
-//             Toast.makeText(this, "데이터 : ${it.leftAnkle_x}", Toast.LENGTH_SHORT).show()
-//        })
         // initialize view model 위 내용 뷰모델에 적용
         // mainViewModel.init()
 
