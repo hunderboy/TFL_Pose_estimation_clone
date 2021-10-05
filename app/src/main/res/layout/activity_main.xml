@@ -31,24 +31,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:layout_marginBottom="10dp"
             android:text="오른 다리 각도 : 0" />
         <TextView
             android:id="@+id/textView_VerticalLeg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:layout_marginBottom="10dp"
             android:text="수직 다리 각도 : 0" />
         <TextView
             android:id="@+id/textView_LeftWaist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:layout_marginBottom="10dp"
             android:text="왼쪽 허리 각도 : 0" />
         <TextView
             android:id="@+id/textView_RightWaist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:layout_marginBottom="10dp"
             android:text="오른쪽 허리 각도 : 0" />
 
     </LinearLayout>

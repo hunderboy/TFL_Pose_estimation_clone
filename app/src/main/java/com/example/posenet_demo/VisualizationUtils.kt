@@ -149,11 +149,15 @@ object VisualizationUtils {
         val rightLegInnerDegrees = standingSideRaiseModel.getRightLegInnerDegrees(newXY)
         // 2. 수직 다리 체크 각도
         val legVerticalAngle = standingSideRaiseModel.getVerticalLegDegree(newXY)
-        // 3. 허리각도 체크 (왼쪽, 오른쪽)
-        val bothWaistAngles = standingSideRaiseModel.checkUpperBody(newXY)
+        // 3. 허리각도 체크 (왼쪽)
+        val leftWaistAngles = standingSideRaiseModel.checkLeftWaistDegree(newXY)
+        // 4. 허리각도 체크 (오른쪽)
+        val rightWaistAngles = standingSideRaiseModel.checkRightWaistDegree(newXY)
 
         viewModel.noticeRightLegDegree(rightLegInnerDegrees)
         viewModel.noticeVerticalLegDegree(legVerticalAngle)
+        viewModel.noticeLeftWaistDegree(leftWaistAngles)
+        viewModel.noticeRightWaistDegree(rightWaistAngles)
 
         return output
     }// drawBodyKeypoints 끝

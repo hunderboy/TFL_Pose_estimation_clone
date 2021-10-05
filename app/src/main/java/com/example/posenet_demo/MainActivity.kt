@@ -189,11 +189,15 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.verticalLegDegreeLiveData.observe(this, Observer {
             textView_VerticalLeg.text = "수직다리 각도 : ${it.toInt()}"
         })
-        //3. 양쪽허리각도 Observer
-        mainViewModel.waistLegDegreeLiveData.observe(this, Observer {
+        // 3. 왼쪽 허리각도 Observer
+        mainViewModel.leftWaistDegreeLiveData.observe(this, Observer {
             textView_LeftWaist.text = "왼쪽 허리 각도 : ${it.toInt()}"
+        })
+        // 4. 왼쪽 허리각도 Observer
+        mainViewModel.rightWaistDegreeLiveData.observe(this, Observer {
             textView_RightWaist.text = "오른쪽 허리 각도 : ${it.toInt()}"
         })
+
 
         // initialize view model 위 내용 뷰모델에 적용
         // mainViewModel.init()

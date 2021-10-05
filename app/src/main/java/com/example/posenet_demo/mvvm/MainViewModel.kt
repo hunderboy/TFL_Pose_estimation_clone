@@ -32,12 +32,18 @@ class MainViewModel : ViewModel() {
         _verticalLegDegree.postValue(degree)
     }
 
-    // 3. 양쪽 상체 허리 각도 LiveData
-    private val _waistDegree : MutableLiveData<Double> = MutableLiveData()
-    val waistLegDegreeLiveData: LiveData<Double> get() = _waistDegree
-    // 수직 다리 각도 변경 함수
-    fun noticeWaistDegree(degree : Double) {
-        _waistDegree.postValue(degree)
+    // 3. 왼쪽 상체 허리 각도 LiveData
+    private val _leftWaistDegree : MutableLiveData<Double> = MutableLiveData()
+    val leftWaistDegreeLiveData: LiveData<Double> get() = _leftWaistDegree
+    fun noticeLeftWaistDegree(degree : Double) {
+        _leftWaistDegree.postValue(degree)
+    }
+
+    // 4. 오른쪽 상체 허리 각도 LiveData
+    private val _rightWaistDegree : MutableLiveData<Double> = MutableLiveData()
+    val rightWaistDegreeLiveData: LiveData<Double> get() = _rightWaistDegree
+    fun noticeRightWaistDegree(degree : Double) {
+        _rightWaistDegree.postValue(degree)
     }
 
 
