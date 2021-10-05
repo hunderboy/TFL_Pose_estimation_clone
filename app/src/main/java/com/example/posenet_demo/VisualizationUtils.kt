@@ -144,15 +144,16 @@ object VisualizationUtils {
             }
         }// when 끝 = 관절 xy 좌표 데이터 설정 완료
 
-        /**
-         * 관절 xy 좌표 가 설정되면, 해당 좌표값들을 가지고
-         1. 오른 다리 사이각 계산
-         */
+        // 관절 xy 좌표 가 설정되면, 해당 좌표값들을 가지고
+        // 1. 오른 다리 사이각 계산
         val rightLegInnerDegrees = standingSideRaiseModel.getRightLegInnerDegrees(newXY)
+        // 2. 수직 다리 체크 각도
+        val legVerticalAngle = standingSideRaiseModel.getVerticalLegDegree(newXY)
+        // 3. 허리각도 체크 (왼쪽, 오른쪽)
+        val bothWaistAngles = standingSideRaiseModel.checkUpperBody(newXY)
 
-        // ViewModel 의 LiveData 에 데이터 변경
         viewModel.noticeRightLegDegree(rightLegInnerDegrees)
-
+        viewModel.noticeVerticalLegDegree(legVerticalAngle)
 
         return output
     }// drawBodyKeypoints 끝

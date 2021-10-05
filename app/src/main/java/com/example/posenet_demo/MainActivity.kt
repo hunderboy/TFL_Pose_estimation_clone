@@ -28,6 +28,7 @@ import com.example.posenet_demo.ml.MoveNet
 import com.example.posenet_demo.ml.PoseClassifier
 import com.example.posenet_demo.ml.PoseNet
 import com.example.posenet_demo.mvvm.MainViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.concurrent.timer
@@ -170,25 +171,32 @@ class MainActivity : AppCompatActivity() {
         // create basic view model 뷰모델 생성
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        // LiveData Observer
+        // 1. 오른다리각도 Observer
         mainViewModel.rightLegDegreeLiveData.observe(this, Observer {
             /**
              * 데이터를 표현하는건 OK.
              * 이제 그럼 데이터를 계속 표현하는게 아니라 백그라운드에서 계산된 데이터를
              * 조건문에 따라 보여줄것 이냐 안보여 줄것이냐를 판단 해야 함.(Toast)
              */
-//            Toast.makeText(this, "오른다리 각도 : ${it.toInt()}", Toast.LENGTH_SHORT).show()
+//            if (sToast == null){
+//                timers()
+//            }
+//            showToast(this, it.toInt().toString())
 
-            if (sToast == null){
-                timers()
-            }
-            showToast(this, it.toInt().toString())
+            textView_RightLeg.text = "오른다리 각도 : ${it.toInt()}"
+        })
+        // 2. 수직다리각도 Observer
+        mainViewModel.verticalLegDegreeLiveData.observe(this, Observer {
+            textView_VerticalLeg.text = "수직다리 각도 : ${it.toInt()}"
+        })
+        //3. 양쪽허리각도 Observer
+        mainViewModel.waistLegDegreeLiveData.observe(this, Observer {
+            textView_LeftWaist.text = "왼쪽 허리 각도 : ${it.toInt()}"
+            textView_RightWaist.text = "오른쪽 허리 각도 : ${it.toInt()}"
         })
 
         // initialize view model 위 내용 뷰모델에 적용
         // mainViewModel.init()
-
-
     }// onCreate 끝
 
 

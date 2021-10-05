@@ -30,9 +30,6 @@ import kotlin.math.atan2
  * @date : 2021-09-22
  * @description :
  * StandingSideRaise 움직임 Model Class
- 1. 스윙다리 각도 계산
- 2. 지탱다리 수직 체크
- 3. 상체 흐트러짐 체크
  */
 class StandingSideRaiseModel {
 
@@ -44,12 +41,6 @@ class StandingSideRaiseModel {
      * 이동하는 점 = leftKnee
      */
     fun getRightLegInnerDegrees(newXY : XYdata) : Double{
-//        val paramY = leftKnee_y - leftHip_y
-//        val paramX = leftKnee_x - leftHip_x
-//        val degreeRadian = atan2(paramY,paramX)
-//        val degree = degreeRadian*(180.0 / Math.PI)
-//        val degreeReverse = singConversion((degree - 90)) // -90도 후 부호 변환
-
         val paramY = newXY.leftKnee_y - newXY.leftHip_y
         val paramX = newXY.leftKnee_x - newXY.leftHip_x
         val degreeRadian = atan2(paramY,paramX)
@@ -65,25 +56,28 @@ class StandingSideRaiseModel {
     }
 
     /** 2. 지탱다리 수직 체크
-     * 세 개의 점으로 계산
+     * 세 개의 점으로 계산(왼쪽허리, 왼쪽 무릎, 왼쪽 발목)
      * 중앙점 = RightKnee
      * 이동하는 점 1 = RightHip
      * 이동하는 점 2 = RightAnkle
      */
-    fun getVerticalLegDegree(){
-        val paramA2y = rightHip_y - rightKnee_y
-        val paramA2x = rightHip_x - rightKnee_x
-        val paramA1y = rightAnkle_y - rightKnee_y
-        val paramA1x = rightAnkle_x - rightKnee_x
+    fun getVerticalLegDegree(newXY : XYdata) : Double{
+
+        val paramA2y = newXY.rightHip_y - newXY.rightKnee_y
+        val paramA2x = newXY.rightHip_x - newXY.rightKnee_x
+        val paramA1y = newXY.rightAnkle_y - newXY.rightKnee_y
+        val paramA1x = newXY.rightAnkle_x - newXY.rightKnee_x
+
         val degreeRadian = atan2(paramA2y,paramA2x) - atan2(paramA1y,paramA1x)
         val degree = singConversion(degreeRadian * (180.0 / Math.PI))
+
         Log.e(TAG,"왼쪽 무릎 Radian : $degreeRadian")
         Log.e(TAG,"왼쪽 무릎 각도 : $degree")
 
-        if(degree < 160){
-            // Toast.makeText(MyApplication.getApplicationContext(), "토스트 메세지 띄우기 입니다.", Toast.LENGTH_SHORT).show()
-        }
-
+//        if(degree < 160){
+//            Toast.makeText(MyApplication.getApplicationContext(), "토스트 메세지 띄우기 입니다.", Toast.LENGTH_SHORT).show()
+//        }
+        return degree
     }
 
     /** 3. 상체 흐트러짐 체크
@@ -95,7 +89,7 @@ class StandingSideRaiseModel {
      * 중앙점 = leftHip
      * 이동하는 점 = leftShoulder
      */
-    fun checkUpperBody(){
+    fun checkUpperBody(newXY : XYdata) {
         // 오른쪽 허리 각도
 //        val paramY_rightWaist = leftShoulder_y - leftHip_y
 //        val paramX_rightWaist = leftShoulder_x - leftHip_x
@@ -112,6 +106,7 @@ class StandingSideRaiseModel {
         val degreeRadian_leftWaist = atan2(paramY_leftWaist,paramX_leftWaist)
         val degree_leftWaist = degreeRadian_leftWaist*(180.0 / Math.PI)
         val degreeReverse_leftWaist = 180+degree_leftWaist
+
         Log.e(TAG,"왼쪽 허리각 Radian : $degreeRadian_leftWaist")
         Log.e(TAG,"왼쪽 허리각 각도 : $degree_leftWaist")
         Log.e(TAG,"왼쪽 허리각 각도 반전 : $degreeReverse_leftWaist")

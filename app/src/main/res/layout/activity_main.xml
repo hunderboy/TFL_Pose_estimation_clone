@@ -16,4 +16,42 @@
 
     <include layout="@layout/bottom_sheet_layout"/>
 
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="right"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/textView_RightLeg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="오른 다리 각도 : 0" />
+        <TextView
+            android:id="@+id/textView_VerticalLeg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="수직 다리 각도 : 0" />
+        <TextView
+            android:id="@+id/textView_LeftWaist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="왼쪽 허리 각도 : 0" />
+        <TextView
+            android:id="@+id/textView_RightWaist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="오른쪽 허리 각도 : 0" />
+
+    </LinearLayout>
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
