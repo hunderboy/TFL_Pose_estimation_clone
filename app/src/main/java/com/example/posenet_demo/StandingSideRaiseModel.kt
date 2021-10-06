@@ -32,7 +32,6 @@ import kotlin.math.atan2
  * StandingSideRaise 움직임 Model Class
  */
 class StandingSideRaiseModel {
-
     private val TAG = "StandingSideRaiseModel"
 
     /** 1. Swing 하는 오른다리 내측 각도 계산
@@ -73,8 +72,7 @@ class StandingSideRaiseModel {
         return degree
     }
 
-
-    /*** 3. 상체 흐트러짐 체크 */
+    /*** 3. 상체 흐트러짐 체크. 두개의 점으로 계산 */
     /**
      * 왼쪽 허리각도
      * 중앙점 = rightHip
@@ -165,3 +163,29 @@ class StandingSideRaiseModel {
 
 
 }
+
+
+/**
+ * 알림 발동 조건
+ *
+ 1. 다리를 더 들어 올려라.
+ * -> 차렷 정자세
+ * -> 다리 들어올린다.(각도가 증가한다.)
+ * -> 각도가 만약 50도 이상 증가했다면 : Count (Count 가능 버튼 Off : 다리를 들어올린 후 각도를 10도 이하로 까지 내려야 Count 되게끔)
+ * -> 다리를 내린다.(각도가 0 에 수렴해가면서 감소한다.)
+ * -> 각도가 만약 10도 이하로 감소했다면 : 다음 Count 가 올라 갈수 있도록 허용 (Count 가능 버튼 On)
+ * 하지만,
+ * 1. 상체 양쪽 허리각
+ * 2. 다리 수직 조건에 부합해야만, 알람 발생
+ *
+ *
+ *
+ 2. 상체를 똑바로 유지하라.
+ * -> 차렷 정자세
+ * ->
+ *
+ *
+ * 3. 다리를 수직으로 유지하라.
+ *
+ */
+

@@ -154,6 +154,7 @@ object VisualizationUtils {
         // 4. 허리각도 체크 (오른쪽)
         val rightWaistAngles = standingSideRaiseModel.checkRightWaistDegree(newXY)
 
+        /*** viewModel 의 데이터 각도 변화 이벤트 전달 */
         viewModel.noticeRightLegDegree(rightLegInnerDegrees)
         viewModel.noticeVerticalLegDegree(legVerticalAngle)
         viewModel.noticeLeftWaistDegree(leftWaistAngles)
